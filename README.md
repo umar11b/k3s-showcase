@@ -325,13 +325,6 @@ The hands-on experience with real hardware (Raspberry Pi) makes the learning mor
 
 Each lab includes a 10-second video demonstration showing the key steps and results. Videos are embedded in the showcase website and can be viewed directly from the lab cards.
 
-## Getting Started
-
-1. Clone this repository
-2. Follow the lab documentation in order
-3. Watch the video demonstrations for visual guidance
-4. Practice the commands and configurations
-
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
