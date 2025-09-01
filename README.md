@@ -1,179 +1,325 @@
-# k3s-showcase
+# Edge Kubernetes Homelab - Learning Journey
 
-Static site + video showcase of my k3s homelab labs (deployed to pi.umarzaman.ca).
+This document captures the learning journey and technical concepts explored in building a Kubernetes homelab on a Raspberry Pi.
 
-## Overview
+## 🎯 Project Overview
 
-This repository contains documentation and video demonstrations for my k3s homelab learning journey on Raspberry Pi 5. Each lab focuses on specific Kubernetes concepts and includes step-by-step instructions, configuration files, and video demonstrations.
+I built a complete Kubernetes homelab running on a Raspberry Pi 5 with:
 
-## Lab Documentation
+- **Hardware**: Pi 5 (8GB RAM) + 512GB SSD (Pre-assembled desktop kit)
+- **OS**: Debian 12 (Bookworm) - Raspberry Pi OS Desktop
+- **Kubernetes Cluster**: Single-node K3s cluster
+- **Monitoring Stack**: Prometheus + Grafana
+- **Persistent Storage**: Local SSD storage with PVCs
+- **Ingress Controller**: Nginx Ingress for external access
+- **Sample Applications**: Echo server and storage test apps
 
-### [Initial k3s Installation](#initial-k3s-installation)
+## 📚 Lab Progress & Learning
 
-**Date:** January 15, 2025  
-**Duration:** 10 minutes  
-**Topics:** Installation, Raspberry Pi, k3s
+### [Lab 1: Basic Kubernetes Setup with Echo App](#lab-1-basic-kubernetes-setup-with-echo-app)
 
-Step-by-step installation of k3s on Raspberry Pi 5 with proper networking configuration and systemd service setup.
+**What We Built:**
 
-#### Prerequisites
+- Deployed a simple echo server application
+- Set up ingress for external access
+- Learned basic Kubernetes concepts
 
-- Raspberry Pi 5 with 8GB RAM
-- MicroSD card with Raspberry Pi OS
-- Network connection
+**Key Concepts Learned:**
 
-#### Installation Steps
+- **Pods**: The smallest deployable units in Kubernetes
+- **Deployments**: Manage pod replicas and updates
+- **Services**: Expose pods internally and externally
+- **Ingress**: Route external traffic to services
+- **Namespaces**: Organize resources logically
 
-1. **Update System**
-
-   ```bash
-   sudo apt update && sudo apt upgrade -y
-   ```
-
-2. **Install k3s**
-
-   ```bash
-   curl -sfL https://get.k3s.io | sh -
-   ```
-
-3. **Configure Networking**
-
-   ```bash
-   sudo nano /etc/systemd/system/k3s.service
-   ```
-
-4. **Start k3s Service**
-   ```bash
-   sudo systemctl enable k3s
-   sudo systemctl start k3s
-   ```
-
-#### Verification
-
-```bash
-kubectl get nodes
-kubectl get pods --all-namespaces
-```
-
----
-
-### [Pod Deployment & Management](#pod-deployment--management)
-
-**Date:** January 20, 2025  
-**Duration:** 15 minutes  
-**Topics:** Pods, kubectl, Deployment
-
-Deploying and managing pods, understanding pod lifecycle, and basic kubectl commands for pod operations.
-
-#### Key Concepts
-
-- Pod lifecycle
-- kubectl commands
-- Deployment strategies
-- Resource management
-
-#### Common Commands
-
-```bash
-# Create a pod
-kubectl run nginx --image=nginx
-
-# Get pod information
-kubectl get pods
-kubectl describe pod <pod-name>
-
-# Delete a pod
-kubectl delete pod <pod-name>
-
-# Port forwarding
-kubectl port-forward <pod-name> 8080:80
-```
-
-#### Example Deployment
+**Technical Implementation:**
 
 ```yaml
+# Pod → Deployment → Service → Ingress flow
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment
+  name: echo-server
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
-      app: nginx
+      app: echo-server
   template:
     metadata:
       labels:
-        app: nginx
+        app: echo-server
     spec:
       containers:
-        - name: nginx
-          image: nginx:latest
+        - name: echo
+          image: hashicorp/http-echo
+          args:
+            - -text="Hello from Kubernetes!"
           ports:
-            - containerPort: 80
+            - containerPort: 5678
 ```
+
+**Why This Matters:**
+
+- Understanding the basic Kubernetes resource hierarchy
+- Learning how applications are deployed and exposed
+- Foundation for more complex deployments
 
 ---
 
-### [Service & Ingress Configuration](#service--ingress-configuration)
+### [Lab 2: Persistent Storage with PVC](#lab-2-persistent-storage-with-pvc)
 
-**Date:** January 25, 2025  
-**Duration:** 12 minutes  
-**Topics:** Services, Ingress, Networking
+**What We Built:**
 
-Setting up services for pod communication and configuring ingress controllers for external access.
+- Storage test application with persistent volumes
+- Data persistence across pod restarts
+- Understanding storage in Kubernetes
 
-#### Service Types
+**Key Concepts Learned:**
 
-- ClusterIP (default)
-- NodePort
-- LoadBalancer
+- **PersistentVolume (PV)**: Physical storage resources
+- **PersistentVolumeClaim (PVC)**: Storage requests from pods
+- **StorageClass**: Dynamic provisioning of storage
+- **Volume Mounts**: How pods access storage
 
-#### Ingress Setup
+**Technical Implementation:**
 
-1. **Install Ingress Controller**
+```yaml
+# PVC requests storage
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: storage-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
 
-   ```bash
-   kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/baremetal/deploy.yaml
-   ```
+# Pod mounts the PVC
+spec:
+  containers:
+  - name: storage-test
+    volumeMounts:
+    - name: storage-volume
+      mountPath: /data
+  volumes:
+  - name: storage-volume
+    persistentVolumeClaim:
+      claimName: storage-pvc
+```
 
-2. **Create Service**
+**Why This Matters:**
 
-   ```yaml
-   apiVersion: v1
-   kind: Service
-   metadata:
-     name: nginx-service
-   spec:
-     selector:
-       app: nginx
-     ports:
-       - port: 80
-         targetPort: 80
-     type: ClusterIP
-   ```
+- Applications need persistent data storage
+- Understanding storage abstraction in Kubernetes
+- Foundation for stateful applications
 
-3. **Configure Ingress**
-   ```yaml
-   apiVersion: networking.k8s.io/v1
-   kind: Ingress
-   metadata:
-     name: nginx-ingress
-     annotations:
-       nginx.ingress.kubernetes.io/rewrite-target: /
-   spec:
-     rules:
-       - host: nginx.local
-         http:
-           paths:
-             - path: /
-               pathType: Prefix
-               backend:
-                 service:
-                   name: nginx-service
-                   port:
-                     number: 80
-   ```
+---
+
+### [Lab 3: Monitoring Deep Dive (Prometheus & Grafana)](#lab-3-monitoring-deep-dive-prometheus--grafana)
+
+**What We Built:**
+
+- Complete monitoring stack with Prometheus and Grafana
+- Custom alert rules for system health
+- Node Exporter dashboard for system metrics
+- Comprehensive system monitoring
+
+**Key Concepts Learned:**
+
+- **Metrics Collection**: How Prometheus scrapes metrics
+- **Time Series Data**: Storing and querying metrics over time
+- **Alerting**: Proactive monitoring with alert rules
+- **Dashboards**: Visualizing metrics with Grafana
+- **Service Discovery**: Automatic discovery of monitoring targets
+
+**Technical Implementation:**
+
+```yaml
+# Prometheus alert rule example
+groups:
+  - name: node_alerts
+    rules:
+      - alert: HighCPUUsage
+        expr: 100 - (avg by (instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High CPU usage on {{ $labels.instance }}"
+```
+
+**Metrics Flow:**
+
+```
+Node Exporter → Prometheus → Grafana
+     ↓              ↓           ↓
+System Metrics → Time Series → Dashboards
+```
+
+**Why This Matters:**
+
+- Production systems need monitoring
+- Understanding system health and performance
+- Proactive issue detection and alerting
+
+---
+
+## 🏗️ Architecture Overview
+
+### System Components
+
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   External      │    │   Ingress       │    │   Applications  │
+│   Traffic       │───▶│   Controller    │───▶│   (Echo, etc.)  │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+                                │
+                                ▼
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Monitoring    │    │   Kubernetes    │    │   Storage       │
+│   Stack         │◀───│   Cluster       │───▶│   (PVCs)        │
+│   (Prometheus   │    │   (K3s)         │    │                 │
+│   + Grafana)    │    └─────────────────┘    └─────────────────┘
+└─────────────────┘
+```
+
+### Data Flow
+
+1. **Application Traffic**: External requests → Ingress → Services → Pods
+2. **Metrics Collection**: Node Exporter → Prometheus → Grafana
+3. **Storage**: Applications → PVC → Local Storage
+4. **Monitoring**: System metrics → Alert rules → Notifications
+
+## 🔧 Key Technologies & Why We Chose Them
+
+### K3s (Lightweight Kubernetes)
+
+- **Why**: Perfect for resource-constrained devices like Raspberry Pi
+- **Benefits**: Small footprint, easy installation, full Kubernetes compatibility
+- **Learning**: Understanding Kubernetes without overwhelming complexity
+
+### Helm Charts
+
+- **Why**: Package manager for Kubernetes applications
+- **Benefits**: Easy deployment, version management, templating
+- **Learning**: How to deploy complex applications with configuration
+
+### Prometheus + Grafana
+
+- **Why**: Industry standard monitoring stack
+- **Benefits**: Powerful querying, flexible alerting, beautiful dashboards
+- **Learning**: Production-grade monitoring concepts
+
+### Nginx Ingress Controller
+
+- **Why**: Most popular ingress controller
+- **Benefits**: Load balancing, SSL termination, path-based routing
+- **Learning**: How external traffic reaches applications
+
+## 📊 Monitoring & Observability
+
+### What We Monitor
+
+- **System Metrics**: CPU, memory, disk, network
+- **Application Metrics**: Pod status, restarts, resource usage
+- **Infrastructure**: Node health, cluster status
+
+### Alert Rules Implemented
+
+- High CPU usage (>80% for 2 minutes)
+- High memory usage (>85% for 2 minutes)
+- High disk usage (>90% for 2 minutes)
+- High load average (>2 for 2 minutes)
+- Pod restart frequency (>5 in 1 hour)
+- Node not ready (critical)
+
+### Dashboard Features
+
+- Node Exporter Full dashboard (ID: 1860)
+- System resource utilization
+- Network traffic analysis
+- Disk I/O monitoring
+
+## 🚀 Production Readiness Lessons
+
+### What Makes This Production-Ready
+
+1. **Monitoring**: Complete observability stack
+2. **Alerting**: Proactive issue detection
+3. **Persistence**: Data survives pod restarts
+4. **Load Balancing**: Ingress controller for traffic management
+5. **Resource Management**: Proper CPU/memory limits
+
+### What We'd Add for Production
+
+1. **Backup Strategy**: Regular backups of persistent data
+2. **Security**: RBAC, network policies, secrets management
+3. **High Availability**: Multiple nodes, anti-affinity rules
+4. **CI/CD**: Automated deployment pipelines
+5. **Logging**: Centralized log aggregation (ELK stack)
+
+## 🎓 Key Learning Outcomes
+
+### Kubernetes Concepts Mastered
+
+- **Resource Management**: Pods, Deployments, Services, Ingress
+- **Storage**: PVs, PVCs, StorageClasses
+- **Monitoring**: Metrics, alerting, dashboards
+- **Networking**: Services, ingress, load balancing
+
+### DevOps Skills Developed
+
+- **Infrastructure as Code**: YAML manifests for everything
+- **Monitoring & Alerting**: Production-grade observability
+- **Troubleshooting**: Debugging Kubernetes issues
+- **Documentation**: Comprehensive setup and usage guides
+
+### Real-World Applications
+
+- **Microservices**: Deploying and managing multiple services
+- **Stateful Applications**: Handling persistent data
+- **Monitoring**: Understanding system health and performance
+- **Scalability**: Planning for growth and high availability
+
+## 🔮 Next Steps & Advanced Topics
+
+### Potential Lab 4 Topics
+
+1. **Service Mesh**: Istio for advanced traffic management
+2. **Security**: RBAC, network policies, secrets
+3. **CI/CD**: GitOps with ArgoCD or Flux
+4. **Logging**: ELK stack for centralized logging
+5. **Backup & Recovery**: Velero for cluster backups
+
+### Advanced Concepts to Explore
+
+- **Multi-cluster Management**: Federation or Karmada
+- **Custom Operators**: Building Kubernetes controllers
+- **Performance Tuning**: Optimizing resource usage
+- **Disaster Recovery**: Backup and restore strategies
+
+---
+
+## 📚 Documentation
+
+This project includes comprehensive documentation to help you understand and manage your homelab:
+
+- **[Installation Guide](INSTALLATION.md)**: Step-by-step setup instructions with hardware specifications
+- **[Remote Access Guide](REMOTE_ACCESS.md)**: Access your homelab from anywhere using Tailscale and kubectl
+- **[Quick Reference](QUICK_REFERENCE.md)**: Common commands, troubleshooting, and monitoring access
+
+## 📝 Conclusion
+
+This homelab project provides a solid foundation for understanding modern cloud-native technologies. From basic Kubernetes concepts to production-ready monitoring, we've covered the essential skills needed for working with containerized applications in a distributed environment.
+
+The hands-on experience with real hardware (Raspberry Pi) makes the learning more tangible and helps understand the practical challenges of running Kubernetes in resource-constrained environments.
+
+**Key Takeaway**: Kubernetes is not just about containers - it's about building reliable, scalable, and observable systems that can run anywhere.
+
+---
 
 ## Video Demonstrations
 

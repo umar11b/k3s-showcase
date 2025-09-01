@@ -13,36 +13,36 @@ import {
 const labsData = [
   {
     id: 1,
-    title: "Initial k3s Installation",
+    title: "Basic Kubernetes Setup with Echo App",
     description:
-      "Step-by-step installation of k3s on Raspberry Pi 5 with proper networking configuration and systemd service setup.",
+      "Deployed a simple echo server application with ingress for external access. Learned basic Kubernetes concepts including pods, deployments, services, and ingress.",
     videoUrl: "/videos/lab1-demo.mp4",
     thumbnail: "/images/lab1-thumb.jpg",
     date: "2025-01-15",
     duration: "10 min",
-    tags: ["Installation", "Raspberry Pi", "k3s"],
+    tags: ["Pods", "Deployments", "Services", "Ingress"],
   },
   {
     id: 2,
-    title: "Pod Deployment & Management",
+    title: "Persistent Storage with PVC",
     description:
-      "Deploying and managing pods, understanding pod lifecycle, and basic kubectl commands for pod operations.",
+      "Built storage test application with persistent volumes. Learned about PVs, PVCs, StorageClasses, and how pods access storage with data persistence across restarts.",
     videoUrl: "/videos/lab2-demo.mp4",
     thumbnail: "/images/lab2-thumb.jpg",
     date: "2025-01-20",
     duration: "15 min",
-    tags: ["Pods", "kubectl", "Deployment"],
+    tags: ["Storage", "PVC", "Persistent Volumes"],
   },
   {
     id: 3,
-    title: "Service & Ingress Configuration",
+    title: "Monitoring Deep Dive (Prometheus & Grafana)",
     description:
-      "Setting up services for pod communication and configuring ingress controllers for external access.",
+      "Complete monitoring stack with Prometheus and Grafana. Implemented custom alert rules, Node Exporter dashboard, and comprehensive system monitoring.",
     videoUrl: "/videos/lab3-demo.mp4",
     thumbnail: "/images/lab3-thumb.jpg",
     date: "2025-01-25",
     duration: "12 min",
-    tags: ["Services", "Ingress", "Networking"],
+    tags: ["Monitoring", "Prometheus", "Grafana", "Alerting"],
   },
 ];
 
