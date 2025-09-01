@@ -19,7 +19,6 @@ const labsData = [
     videoUrl: "/videos/lab1-demo.mp4",
     thumbnail: "/images/lab1-thumb.jpg",
     date: "2025-01-15",
-    duration: "10 min",
     tags: ["Pods", "Deployments", "Services", "Ingress"],
   },
   {
@@ -30,7 +29,6 @@ const labsData = [
     videoUrl: "/videos/lab2-demo.mp4",
     thumbnail: "/images/lab2-thumb.jpg",
     date: "2025-01-20",
-    duration: "15 min",
     tags: ["Storage", "PVC", "Persistent Volumes"],
   },
   {
@@ -41,7 +39,6 @@ const labsData = [
     videoUrl: "/videos/lab3-demo.mp4",
     thumbnail: "/images/lab3-thumb.jpg",
     date: "2025-01-25",
-    duration: "12 min",
     tags: ["Monitoring", "Prometheus", "Grafana", "Alerting"],
   },
 ];
@@ -87,10 +84,6 @@ const LabCard = ({ lab, index }: { lab: any; index: number }) => {
           <div className="flex items-center gap-1">
             <CalendarIcon className="w-3 h-3" />
             {lab.date}
-          </div>
-          <div className="flex items-center gap-1">
-            <ClockIcon className="w-3 h-3" />
-            {lab.duration}
           </div>
         </div>
 
