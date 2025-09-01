@@ -18,7 +18,7 @@ I built a complete Kubernetes homelab running on a Raspberry Pi 5 with:
 
 ### [Lab 1: Basic Kubernetes Setup with Echo App](#lab-1-basic-kubernetes-setup-with-echo-app)
 
-**What We Built:**
+**What I Built:**
 
 - Deployed a simple echo server application
 - Set up ingress for external access
@@ -69,7 +69,7 @@ spec:
 
 ### [Lab 2: Persistent Storage with PVC](#lab-2-persistent-storage-with-pvc)
 
-**What We Built:**
+**What I Built:**
 
 - Storage test application with persistent volumes
 - Data persistence across pod restarts
@@ -120,7 +120,7 @@ spec:
 
 ### [Lab 3: Monitoring Deep Dive (Prometheus & Grafana)](#lab-3-monitoring-deep-dive-prometheus--grafana)
 
-**What We Built:**
+**What I Built:**
 
 - Complete monitoring stack with Prometheus and Grafana
 - Custom alert rules for system health
@@ -193,7 +193,7 @@ System Metrics → Time Series → Dashboards
 3. **Storage**: Applications → PVC → Local Storage
 4. **Monitoring**: System metrics → Alert rules → Notifications
 
-## 🔧 Key Technologies & Why We Chose Them
+## 🔧 Key Technologies & Why I Chose Them
 
 ### K3s (Lightweight Kubernetes)
 
@@ -221,7 +221,7 @@ System Metrics → Time Series → Dashboards
 
 ## 📊 Monitoring & Observability
 
-### What We Monitor
+### What I Monitor
 
 - **System Metrics**: CPU, memory, disk, network
 - **Application Metrics**: Pod status, restarts, resource usage
@@ -253,7 +253,7 @@ System Metrics → Time Series → Dashboards
 4. **Load Balancing**: Ingress controller for traffic management
 5. **Resource Management**: Proper CPU/memory limits
 
-### What We'd Add for Production
+### What I'd Add for Production
 
 1. **Backup Strategy**: Regular backups of persistent data
 2. **Security**: RBAC, network policies, secrets management
@@ -313,7 +313,7 @@ This project includes comprehensive documentation to help you understand and man
 
 ## 📝 Conclusion
 
-This homelab project provides a solid foundation for understanding modern cloud-native technologies. From basic Kubernetes concepts to production-ready monitoring, we've covered the essential skills needed for working with containerized applications in a distributed environment.
+This homelab project provides a solid foundation for understanding modern cloud-native technologies. From basic Kubernetes concepts to production-ready monitoring, I've covered the essential skills needed for working with containerized applications in a distributed environment.
 
 The hands-on experience with real hardware (Raspberry Pi) makes the learning more tangible and helps understand the practical challenges of running Kubernetes in resource-constrained environments.
 
@@ -331,10 +331,6 @@ Each lab includes a 10-second video demonstration showing the key steps and resu
 2. Follow the lab documentation in order
 3. Watch the video demonstrations for visual guidance
 4. Practice the commands and configurations
-
-## Contributing
-
-Feel free to submit issues, feature requests, or pull requests to improve the documentation and demonstrations.
 
 ## License
 
