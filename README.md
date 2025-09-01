@@ -303,14 +303,6 @@ System Metrics → Time Series → Dashboards
 
 ---
 
-## 📚 Documentation
-
-This project includes comprehensive documentation to help you understand and manage your homelab:
-
-- **[Installation Guide](INSTALLATION.md)**: Step-by-step setup instructions with hardware specifications
-- **[Remote Access Guide](REMOTE_ACCESS.md)**: Access your homelab from anywhere using Tailscale and kubectl
-- **[Quick Reference](QUICK_REFERENCE.md)**: Common commands, troubleshooting, and monitoring access
-
 ## 📝 Conclusion
 
 This homelab project provides a solid foundation for understanding modern cloud-native technologies. From basic Kubernetes concepts to production-ready monitoring, I've covered the essential skills needed for working with containerized applications in a distributed environment.
