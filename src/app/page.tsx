@@ -6,11 +6,21 @@ import {
   GithubIcon,
   ExternalLinkIcon,
   CalendarIcon,
-  ClockIcon,
 } from "lucide-react";
 
+// Define the lab data interface
+interface LabData {
+  id: number;
+  title: string;
+  description: string;
+  videoUrl: string;
+  thumbnail: string;
+  date: string;
+  tags: string[];
+}
+
 // Sample lab data - you can expand this
-const labsData = [
+const labsData: LabData[] = [
   {
     id: 1,
     title: "Basic Kubernetes Setup with Echo App",
@@ -43,7 +53,7 @@ const labsData = [
   },
 ];
 
-const LabCard = ({ lab, index }: { lab: any; index: number }) => {
+const LabCard = ({ lab, index }: { lab: LabData; index: number }) => {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
 
   return (
