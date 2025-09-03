@@ -1,0 +1,46 @@
+name: Deploy Pi Showcase to S3
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Next.js app
+        run: npm run build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::931633655568:role/GitHubPortfolioDeploy
+          aws-region: us-east-1
+          role-session-name: GitHubActions
+
+      - name: Deploy to S3
+        run: |
+          aws s3 sync out/ s3://pi.umarzaman.ca --delete --cache-control max-age=31536000,public
+
+      - name: Invalidate CloudFront
+        run: |
+          aws cloudfront create-invalidation --distribution-id YOUR_PI_DISTRIBUTION_ID --paths "/*"
