@@ -1,5 +1,9 @@
 {
   "CallerReference": "pi-umarzaman-ca-2024",
+  "Aliases": {
+    "Quantity": 1,
+    "Items": ["pi.umarzaman.ca"]
+  },
   "DefaultRootObject": "index.html",
   "Origins": {
     "Quantity": 1,
@@ -29,5 +33,10 @@
     "MinTTL": 0
   },
   "Comment": "Pi showcase subdomain",
-  "Enabled": true
+  "Enabled": true,
+  "ViewerCertificate": {
+    "ACMCertificateArn": "arn:aws:acm:us-east-1:931633655568:certificate/6c412ce9-acb5-4ca9-a791-fff2517bcd12",
+    "SSLSupportMethod": "sni-only",
+    "MinimumProtocolVersion": "TLSv1.2_2021"
+  }
 }
