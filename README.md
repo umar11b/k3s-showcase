@@ -167,6 +167,109 @@ System Metrics → Time Series → Dashboards
 
 ---
 
+### [Lab 4: Horizontal Pod Autoscaling (HPA)](#lab-4-horizontal-pod-autoscaling-hpa)
+
+**What I Built:**
+
+- Horizontal Pod Autoscaler for the echo application
+- CPU and memory-based scaling policies
+- Load testing with hey/ab tools
+- Real-time scaling visualization in Grafana
+
+**Key Concepts Learned:**
+
+- **HPA**: Automatic scaling based on resource utilization
+- **Metrics Server**: Providing resource metrics to Kubernetes
+- **Scaling Policies**: Gradual scale-up, conservative scale-down
+- **Load Testing**: Simulating production traffic patterns
+- **Observability**: Watching scaling events in real-time
+
+**Technical Implementation:**
+
+```yaml
+# HPA Configuration
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: echo
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: echo
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+        - type: Percent
+          value: 10
+          periodSeconds: 60
+    scaleUp:
+      stabilizationWindowSeconds: 60
+      policies:
+        - type: Percent
+          value: 50
+          periodSeconds: 60
+        - type: Pods
+          value: 2
+          periodSeconds: 60
+      selectPolicy: Max
+```
+
+**Load Testing Commands:**
+
+```bash
+# Light load test (should trigger scaling)
+hey -n 10000 -c 50 -z 2m http://your-echo-url/
+
+# Heavy load test (should max out scaling)
+hey -n 50000 -c 100 -z 5m http://your-echo-url/
+
+# Monitor scaling in real-time
+kubectl get hpa -n apps -w
+kubectl get pods -n apps -w
+```
+
+**Monitoring & Visualization:**
+
+**Grafana Dashboard Features:**
+
+- Real-time replica count monitoring
+- CPU/Memory utilization tracking
+- Scaling events timeline
+- HPA status and metrics
+
+**Key Metrics to Watch:**
+
+- Current vs Desired replicas
+- CPU utilization percentage
+- Memory utilization percentage
+- Scaling events and timing
+
+**Why This Matters:**
+
+- Understanding automatic scaling in production environments
+- Learning how to handle traffic spikes gracefully
+- Observing the relationship between load and resource consumption
+- Foundation for building scalable, resilient applications
+
+---
+
 ## 🏗️ Architecture Overview
 
 ### System Components
@@ -252,6 +355,7 @@ System Metrics → Time Series → Dashboards
 3. **Persistence**: Data survives pod restarts
 4. **Load Balancing**: Ingress controller for traffic management
 5. **Resource Management**: Proper CPU/memory limits
+6. **Autoscaling**: Automatic scaling based on resource utilization
 
 ### What I'd Add for Production
 
@@ -269,6 +373,7 @@ System Metrics → Time Series → Dashboards
 - **Storage**: PVs, PVCs, StorageClasses
 - **Monitoring**: Metrics, alerting, dashboards
 - **Networking**: Services, ingress, load balancing
+- **Autoscaling**: HPA, scaling policies, load testing
 
 ### DevOps Skills Developed
 
@@ -286,7 +391,7 @@ System Metrics → Time Series → Dashboards
 
 ## 🔮 Next Steps & Advanced Topics
 
-### Potential Lab 4 Topics
+### Potential Lab 5 Topics
 
 1. **Service Mesh**: Istio for advanced traffic management
 2. **Security**: RBAC, network policies, secrets
