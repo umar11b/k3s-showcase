@@ -51,6 +51,22 @@ const labsData: LabData[] = [
     date: "2025-01-25",
     tags: ["Monitoring", "Prometheus", "Grafana", "Alerting"],
   },
+  {
+    id: 4,
+    title: "Horizontal Pod Autoscaling (HPA)",
+    description:
+      "Implemented Horizontal Pod Autoscaler for automatic scaling based on CPU and memory utilization. Configured scaling policies, performed load testing with hey/ab tools, and monitored real-time scaling events in Grafana.",
+    videoUrl: "/videos/lab4-demo.mp4",
+    thumbnail: "/images/lab4-thumb.jpg",
+    date: "2025-01-30",
+    tags: [
+      "HPA",
+      "Autoscaling",
+      "Load Testing",
+      "Metrics Server",
+      "Scaling Policies",
+    ],
+  },
 ];
 
 const LabCard = ({ lab, index }: { lab: LabData; index: number }) => {
