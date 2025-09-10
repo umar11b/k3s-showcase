@@ -28,7 +28,7 @@ const labsData: LabData[] = [
       "Deployed a simple echo server application with ingress for external access. Learned basic Kubernetes concepts including pods, deployments, services, and ingress.",
     videoUrl: "/videos/lab1-demo.mp4",
     thumbnail: "/images/lab1-thumb.jpg",
-    date: "2025-01-15",
+    date: "2025-08-25",
     tags: ["Pods", "Deployments", "Services", "Ingress"],
   },
   {
@@ -38,7 +38,7 @@ const labsData: LabData[] = [
       "Built storage test application with persistent volumes. Learned about PVs, PVCs, StorageClasses, and how pods access storage with data persistence across restarts.",
     videoUrl: "/videos/lab2-demo.mp4",
     thumbnail: "/images/lab2-thumb.jpg",
-    date: "2025-01-20",
+    date: "2025-08-30",
     tags: ["Storage", "PVC", "Persistent Volumes"],
   },
   {
@@ -48,7 +48,7 @@ const labsData: LabData[] = [
       "Complete monitoring stack with Prometheus and Grafana. Implemented custom alert rules, Node Exporter dashboard, and comprehensive system monitoring.",
     videoUrl: "/videos/lab3-demo.mp4",
     thumbnail: "/images/lab3-thumb.jpg",
-    date: "2025-01-25",
+    date: "2025-09-03",
     tags: ["Monitoring", "Prometheus", "Grafana", "Alerting"],
   },
   {
@@ -58,7 +58,7 @@ const labsData: LabData[] = [
       "Implemented Horizontal Pod Autoscaler for automatic scaling based on CPU and memory utilization. Configured scaling policies, performed load testing with hey/ab tools, and monitored real-time scaling events in Grafana.",
     videoUrl: "/videos/lab4-demo.mp4",
     thumbnail: "/images/lab4-thumb.jpg",
-    date: "2025-01-30",
+    date: "2025-09-09",
     tags: [
       "HPA",
       "Autoscaling",
