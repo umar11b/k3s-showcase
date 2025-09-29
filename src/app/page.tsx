@@ -49,7 +49,7 @@ const achievementsData: LabData[] = [
     title: "Advanced Monitoring & Observability Stack",
     description:
       "Deployed Prometheus + Grafana with custom dashboards and alerting. Implemented custom metrics collection for Minecraft server (player count, TPS, performance) and comprehensive monitoring covering cluster health, application metrics, and resource utilization.",
-    videoUrl: "/videos/monitoring-demo.mp4",
+    videoUrl: "/videos/postscale.mov",
     thumbnail: "/images/hero-image.png",
     date: "2025-01-20",
     tags: [
@@ -157,6 +157,7 @@ const LabCard = ({ lab, index }: { lab: LabData; index: number }) => {
 
       <div className="space-y-4">
         <div className="flex justify-center">
+          {/* Commented out all button functionality
           {lab.mediaType === "video" && lab.videoUrl ? (
             <button
               onClick={() => setIsVideoModalOpen(true)}
@@ -209,6 +210,7 @@ const LabCard = ({ lab, index }: { lab: LabData; index: number }) => {
                 src={lab.videoUrl}
                 controls
                 autoPlay
+                loop
                 className="w-full rounded-lg"
               >
                 Your browser does not support the video tag.
