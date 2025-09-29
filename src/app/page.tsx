@@ -13,59 +13,104 @@ interface LabData {
   id: number;
   title: string;
   description: string;
-  videoUrl: string;
+  videoUrl?: string;
+  imageUrl?: string;
   thumbnail: string;
   date: string;
   tags: string[];
+  mediaType: "video" | "image";
 }
 
-// Sample lab data - you can expand this
-const labsData: LabData[] = [
+// Production Kubernetes homelab achievements
+const achievementsData: LabData[] = [
   {
     id: 1,
-    title: "Basic Kubernetes Setup with Echo App",
+    title: "Production-Grade Kubernetes Architecture",
     description:
-      "Deployed a simple echo server application with ingress for external access. Learned basic Kubernetes concepts including pods, deployments, services, and ingress.",
-    videoUrl: "/videos/lab1-demo.mp4",
-    thumbnail: "/images/lab1-thumb.jpg",
-    date: "2025-08-25",
-    tags: ["Pods", "Deployments", "Services", "Ingress"],
+      "Built a complete K3s cluster on Raspberry Pi 5 with enterprise-grade monitoring and Infrastructure as Code using Kustomize overlays and Helm charts. Designed multi-tier architecture with proper separation of concerns for monitoring, applications, and ingress.",
+    imageUrl: "/images/k3s-architecture-screenshot.png",
+    thumbnail: "/images/hero-image.png",
+    date: "2025-01-15",
+    tags: [
+      "K3s",
+      "Infrastructure as Code",
+      "Kustomize",
+      "Helm",
+      "Multi-tier Architecture",
+    ],
+    mediaType: "image",
   },
   {
     id: 2,
-    title: "Persistent Storage with PVC",
+    title: "Advanced Monitoring & Observability Stack",
     description:
-      "Built storage test application with persistent volumes. Learned about PVs, PVCs, StorageClasses, and how pods access storage with data persistence across restarts.",
-    videoUrl: "/videos/lab2-demo.mp4",
-    thumbnail: "/images/lab2-thumb.jpg",
-    date: "2025-08-30",
-    tags: ["Storage", "PVC", "Persistent Volumes"],
+      "Deployed Prometheus + Grafana with custom dashboards and alerting. Implemented custom metrics collection for Minecraft server (player count, TPS, performance) and comprehensive monitoring covering cluster health, application metrics, and resource utilization.",
+    videoUrl: "/videos/monitoring-demo.mp4",
+    thumbnail: "/images/hero-image.png",
+    date: "2025-01-20",
+    tags: [
+      "Prometheus",
+      "Grafana",
+      "Custom Metrics",
+      "Alerting",
+      "Observability",
+    ],
+    mediaType: "video",
   },
   {
     id: 3,
-    title: "Monitoring Deep Dive (Prometheus & Grafana)",
+    title: "Sophisticated Auto-Scaling Implementation",
     description:
-      "Complete monitoring stack with Prometheus and Grafana. Implemented custom alert rules, Node Exporter dashboard, and comprehensive system monitoring.",
-    videoUrl: "/videos/lab3-demo.mp4",
-    thumbnail: "/images/lab3-thumb.jpg",
-    date: "2025-09-03",
-    tags: ["Monitoring", "Prometheus", "Grafana", "Alerting"],
+      "Built HPA (Horizontal Pod Autoscaler) with multi-metric scaling (CPU, memory, custom metrics). Implemented intelligent scaling policies with aggressive scale-up and conservative scale-down. Custom metrics integration - scaling based on Minecraft player count.",
+    imageUrl: "/images/hpa-scaling-screenshot.png",
+    thumbnail: "/images/hero-image.png",
+    date: "2025-01-25",
+    tags: [
+      "HPA",
+      "Auto-scaling",
+      "Custom Metrics",
+      "Scaling Policies",
+      "Performance",
+    ],
+    mediaType: "image",
   },
   {
     id: 4,
-    title: "Horizontal Pod Autoscaling (HPA)",
+    title: "Security-First Approach & DevOps Automation",
     description:
-      "Implemented Horizontal Pod Autoscaler for automatic scaling based on CPU and memory utilization. Configured scaling policies, performed load testing with hey/ab tools, and monitored real-time scaling events in Grafana.",
-    videoUrl: "/videos/lab4-demo.mp4",
-    thumbnail: "/images/lab4-thumb.jpg",
-    date: "2025-09-09",
+      "Implemented comprehensive security analysis with detailed risk assessment, container security best practices, network policies and RBAC configurations. Created comprehensive Makefile with automated deployment pipelines and backup automation with CronJobs.",
+    imageUrl: "/images/security-rbac-screenshot.png",
+    thumbnail: "/images/hero-image.png",
+    date: "2025-01-30",
+    tags: ["Security", "RBAC", "Network Policies", "Automation", "DevOps"],
+    mediaType: "image",
+  },
+  {
+    id: 5,
+    title: "Advanced Application Deployment",
+    description:
+      "Minecraft server with production features: health checks (liveness, readiness, startup probes), resource management (CPU/memory requests and limits), persistent storage with automated backups, and custom metrics exporter integration.",
+    imageUrl: "/images/minecraft-deployment-screenshot.png",
+    thumbnail: "/images/hero-image.png",
+    date: "2025-02-05",
     tags: [
-      "HPA",
-      "Autoscaling",
-      "Load Testing",
-      "Metrics Server",
-      "Scaling Policies",
+      "Health Checks",
+      "Resource Management",
+      "Persistent Storage",
+      "Metrics Exporter",
     ],
+    mediaType: "image",
+  },
+  {
+    id: 6,
+    title: "Virtualization & Multi-Tenancy",
+    description:
+      "Deployed 3-tier LAMP architecture using VMs in containers. Built interactive port-forwarding scripts with user-friendly menus and created educational lab environments for hands-on learning with proper isolation.",
+    imageUrl: "/images/lamp-virtualization-screenshot.png",
+    thumbnail: "/images/hero-image.png",
+    date: "2025-02-10",
+    tags: ["Virtualization", "LAMP Stack", "Multi-tenancy", "Educational Labs"],
+    mediaType: "image",
   },
 ];
 
@@ -106,51 +151,30 @@ const LabCard = ({ lab, index }: { lab: LabData; index: number }) => {
       </p>
 
       <div className="space-y-4">
-        <div className="flex items-center gap-4 text-xs text-gray-400">
-          <div className="flex items-center gap-1">
-            <CalendarIcon className="w-3 h-3" />
-            {lab.date}
-          </div>
-        </div>
-
-        <div>
-          <p className="text-gray-400 text-xs mb-2">Topics:</p>
-          <div className="flex flex-wrap gap-2">
-            {lab.tags.map((tag: string, i: number) => (
-              <span
-                key={i}
-                className="px-2 py-1 text-xs rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20 group-hover:bg-purple-500/20 group-hover:border-purple-500/40 transition-all duration-300"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        <div className="flex gap-3 pt-2">
-          <button
-            onClick={() => setIsVideoModalOpen(true)}
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 text-white hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 text-sm font-medium transform hover:scale-105"
-          >
-            <PlayIcon className="w-4 h-4" />
-            Watch Demo
-          </button>
-          <a
-            href={`https://github.com/umar11b/k3s-showcase/blob/main/README.md#${lab.title
-              .toLowerCase()
-              .replace(/\s+/g, "-")
-              .replace(/[^a-z0-9-]/g, "")}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 text-purple-400 hover:from-purple-500/30 hover:to-pink-500/30 hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 text-sm font-medium transform hover:scale-105"
-          >
-            <ExternalLinkIcon className="w-4 h-4" />
-            Documentation
-          </a>
+        <div className="flex justify-center">
+          {(lab.mediaType === "video" && lab.videoUrl) ||
+          (lab.mediaType === "image" && lab.imageUrl) ? (
+            <button
+              onClick={() => setIsVideoModalOpen(true)}
+              className="flex items-center gap-2 px-6 py-2 rounded-full bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 text-white hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 text-sm font-medium transform hover:scale-105"
+            >
+              {lab.mediaType === "video" ? (
+                <>
+                  <PlayIcon className="w-4 h-4" />
+                  Watch Demo
+                </>
+              ) : (
+                <>
+                  <ExternalLinkIcon className="w-4 h-4" />
+                  View Screenshot
+                </>
+              )}
+            </button>
+          ) : null}
         </div>
       </div>
 
-      {/* Video Modal */}
+      {/* Media Modal */}
       {isVideoModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
           <div className="relative w-full max-w-4xl mx-4">
@@ -160,14 +184,22 @@ const LabCard = ({ lab, index }: { lab: LabData; index: number }) => {
             >
               ✕ Close
             </button>
-            <video
-              src={lab.videoUrl}
-              controls
-              autoPlay
-              className="w-full rounded-lg"
-            >
-              Your browser does not support the video tag.
-            </video>
+            {lab.mediaType === "video" && lab.videoUrl ? (
+              <video
+                src={lab.videoUrl}
+                controls
+                autoPlay
+                className="w-full rounded-lg"
+              >
+                Your browser does not support the video tag.
+              </video>
+            ) : lab.mediaType === "image" && lab.imageUrl ? (
+              <img
+                src={lab.imageUrl}
+                alt={lab.title}
+                className="w-full rounded-lg"
+              />
+            ) : null}
           </div>
         </div>
       )}
@@ -187,12 +219,13 @@ export default function Home() {
           className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
         >
           <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 bg-clip-text text-transparent">
-            k3s Homelab Showcase
+            Production Kubernetes Homelab
           </h1>
-          <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
-            Documenting my journey learning Kubernetes on Raspberry Pi with
-            video demonstrations and detailed technical documentation for each
-            lab exercise.
+          <p className="text-xl text-gray-300 mb-8 max-w-4xl mx-auto">
+            Enterprise-grade Kubernetes infrastructure on Raspberry Pi 5 with
+            advanced monitoring, auto-scaling, security hardening, and DevOps
+            automation. Featuring 16% memory optimization, multi-metric HPA, and
+            comprehensive observability stack.
           </p>
           <div className="flex justify-center gap-4">
             <a
@@ -226,12 +259,53 @@ export default function Home() {
           viewport={{ once: true }}
           className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
         >
+          {/* Key Metrics Section */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 p-6 rounded-xl border border-green-500/20 text-center"
+            >
+              <div className="text-3xl font-bold text-green-400 mb-2">16%</div>
+              <div className="text-gray-300 text-sm">Memory Optimization</div>
+              <div className="text-gray-500 text-xs mt-1">85% → 69% usage</div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 p-6 rounded-xl border border-blue-500/20 text-center"
+            >
+              <div className="text-3xl font-bold text-blue-400 mb-2">1-3</div>
+              <div className="text-gray-300 text-sm">Auto-scaling Replicas</div>
+              <div className="text-gray-500 text-xs mt-1">Multi-metric HPA</div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              viewport={{ once: true }}
+              className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 p-6 rounded-xl border border-purple-500/20 text-center"
+            >
+              <div className="text-3xl font-bold text-purple-400 mb-2">6</div>
+              <div className="text-gray-300 text-sm">Security Controls</div>
+              <div className="text-gray-500 text-xs mt-1">
+                RBAC + Network Policies
+              </div>
+            </motion.div>
+          </div>
+
           <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 bg-clip-text text-transparent">
-            Initial Setup & Practice Labs
+            Production Achievements & Architecture
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {labsData.map((lab, index) => (
+            {achievementsData.map((lab, index) => (
               <LabCard key={lab.id} lab={lab} index={index} />
             ))}
           </div>

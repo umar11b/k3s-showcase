@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "k3s Homelab Showcase - Umar Zaman",
+  title: "Production Kubernetes Homelab - Umar Zaman",
   description:
-    "Documenting my journey learning Kubernetes on Raspberry Pi with video demonstrations and detailed technical documentation for each lab exercise.",
+    "Enterprise-grade Kubernetes infrastructure on Raspberry Pi 5 featuring advanced monitoring, auto-scaling, security hardening, and DevOps automation with 16% memory optimization.",
 };
 
 export default function RootLayout({
