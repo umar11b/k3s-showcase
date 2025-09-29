@@ -91,9 +91,34 @@ cp /path/to/your/monitoring-video.mp4 public/videos/monitoring-demo.mp4
 4. **Include before/after** memory usage comparisons
 5. **Export as MP4** with good quality but reasonable file size
 
+## 🔄 **Multiple Images Support**
+
+You can now display multiple screenshots for any achievement by:
+
+1. **Using `mediaType: "images"`** instead of `"image"`
+2. **Using `imageUrls: ["/images/img1.png", "/images/img2.png"]`** instead of `imageUrl`
+3. **The button will show** `View Implementation (3)` indicating 3 images
+4. **Navigation arrows** allow users to browse through all images
+5. **Image counter** shows current position (e.g., "2 / 3")
+
+### **Example for HPA Scaling (Multiple Images):**
+
+```javascript
+{
+  id: 3,
+  title: "Sophisticated Auto-Scaling Implementation",
+  mediaType: "images",
+  imageUrls: [
+    "/images/hpa-before-memory.png",
+    "/images/hpa-scaling-events.png",
+    "/images/hpa-after-optimization.png"
+  ]
+}
+```
+
 ## 📝 **File Naming Convention**
 
-- Screenshots: `{category}-screenshot.png`
+- Screenshots: `{category}-screenshot.png` or `{category}-1.png`, `{category}-2.png`
 - Videos: `{category}-demo.mp4`
 - Keep filenames lowercase with hyphens
 - Use descriptive names that match the achievement titles
